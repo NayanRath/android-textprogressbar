@@ -1,6 +1,7 @@
 package orioli.adriano.views;
 
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -8,22 +9,23 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.graphics.Xfermode;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.ProgressBar;
 
 /**
  * 
  * @author Adriano Orioli
- * @version 1.0
+ * @version 1.0.1
  * 
  *  
  */ 
 public class TextProgressBar extends ProgressBar {
 
 	private String text="TEXT";
-		
+	private Typeface typeface = Typeface.create("sans-serif", Typeface.BOLD);	
+	
 	private int textSize = 0;
 	private float textSkew = 0.0f;
 	private Paint.Align textAlign = Paint.Align.LEFT;
@@ -54,18 +56,12 @@ public class TextProgressBar extends ProgressBar {
 
 	public TextProgressBar(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		initialize(attrs);
 	}
 
 	public TextProgressBar(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		initialize(attrs);
 	}
-	
-	private void initialize(AttributeSet attrs){
-		Log.i("asd", attrs.getAttributeFloatValue("custom", "textSkew", 0f)+" ");
-	}
-	
+		
 //SET & GET
 	
 	public void setText(String text) {
@@ -110,6 +106,8 @@ public class TextProgressBar extends ProgressBar {
 		else 
 			paint.setTextScaleX(this.getTextScaleX());	
 		
+		paint.setTypeface(this.getTypeface());
+		
 		textFillCanvas.drawText(this.getText(),-5,textFillCanvas.getHeight()-5,paint);
 		paint.reset();
 
@@ -135,6 +133,8 @@ public class TextProgressBar extends ProgressBar {
 		
 		paint.setStyle(Paint.Style.STROKE);
 		paint.setStrokeWidth(this.getTextStrokeWidth());
+		
+		paint.setTypeface(this.getTypeface());
 		
 		textStrokeCanvas.drawText(this.text,-5,textStrokeCanvas.getHeight()-5,paint);
 		paint.reset();
@@ -209,6 +209,22 @@ public class TextProgressBar extends ProgressBar {
 		this.stroked = stroked;
 	}
 
+	public Typeface getTypeface() {
+		return typeface;
+	}
+
+	public void setTypeface(String familyName,int style) {
+		this.typeface = Typeface.create(familyName, style);
+	}
+
+	public void setTypeface(AssetManager mgr, String path) {
+		this.typeface = Typeface.createFromAsset(mgr, path);
+	}
+	
+	public void setTypeface(Typeface typeface){
+		this.typeface = typeface;
+	}
+	
 	public void setStrokeColor(int strokeColor) {
 		this.textStrokeColor = strokeColor;
 	}
@@ -226,6 +242,7 @@ public class TextProgressBar extends ProgressBar {
 		Canvas maskCanvas = new Canvas(maskBitmap);
 		maskCanvas.drawRect(0, 0, 1, maskCanvas.getHeight(), paint);
 		src = new Rect(0,0,1,maskCanvas.getHeight());
+		paint.reset();
 	}
 		
 //OVERRIDES	

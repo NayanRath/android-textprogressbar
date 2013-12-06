@@ -1,6 +1,6 @@
 #TextProgressBar
 This is a simple implemention of a progress bar which shows itself as text.
-You can change text size, fill and stroke color, skew and alignment. Font changing will be implemented shortly.
+You can change text size, fill and stroke color, skew, alignement and font.
 
 The easiest way to import this is to download the .jar file and put it in your project in the __libs__ folder, and then right click on the .jar and select add to build path.
 
